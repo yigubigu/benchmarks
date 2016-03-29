@@ -86,6 +86,7 @@ We're using the following physical machines to perform these tests:
 | ---- | --- | ---- | --- | --- | --- | ----- |
 | perfsvr | Windows Server 2012 R2 | Web Server | [Xeon E5-1650](http://ark.intel.com/products/64601/Intel-Xeon-Processor-E5-1650-12M-Cache-3_20-GHz-0_0-GTs-Intel-QPI) | 32 GB | [Intel® Ethernet Converged Network Adapter X540-T1 10GbE](http://ark.intel.com/products/58953/Intel-Ethernet-Converged-Network-Adapter-X540-T1) |
 | perfsvr2 | Ubuntu 14.04 LTS | Web Server & Load Generator | [Xeon E5-1650](http://ark.intel.com/products/64601/Intel-Xeon-Processor-E5-1650-12M-Cache-3_20-GHz-0_0-GTs-Intel-QPI) | 32 GB | [Intel® Ethernet Converged Network Adapter X540-T1 10GbE](http://ark.intel.com/products/58953/Intel-Ethernet-Converged-Network-Adapter-X540-T1) |
+| perfsvr3 | Ubuntu 14.04 LTS | Web Server & Load Generator | [E5-2670 v3](http://ark.intel.com/products/81709/Intel-Xeon-Processor-E5-2670-v3-30M-Cache-2_30-GHz) | 32 GB | [Intel® Ethernet Converged Network Adapter X540-T1 10GbE](http://ark.intel.com/products/58953/Intel-Ethernet-Converged-Network-Adapter-X540-T1) |
 | perf02 | Windows Server 2012 R2 | Load Generator | [Xeon W3550](http://ark.intel.com/products/39720/Intel-Xeon-Processor-W3550-8M-Cache-3_06-GHz-4_80-GTs-Intel-QPI) | 24 GB | [Intel® Ethernet Converged Network Adapter X540-T1 10GbE](http://ark.intel.com/products/58953/Intel-Ethernet-Converged-Network-Adapter-X540-T1) |
 | perf03 | Ubuntu 14.04 LTS | Load Generator | [Xeon W3550](http://ark.intel.com/products/39720/Intel-Xeon-Processor-W3550-8M-Cache-3_06-GHz-4_80-GTs-Intel-QPI) | 12 GB | [Intel® Ethernet Converged Network Adapter X540-T1 10GbE](http://ark.intel.com/products/58953/Intel-Ethernet-Converged-Network-Adapter-X540-T1) |
 
@@ -131,10 +132,14 @@ Like the Plain Text scenario above but with HTTP pipelining enabled at a depth o
 | Stack | Server |  Req/sec | Load Params | Impl | Observations |
 | ----- | ------ | -------- | ----------- | ---- | ------------ |
 | NodeJS | perfsvr | 147,554 | 32 threads, 256 connections | The actual TechEmpower NodeJS app | CPU is 100%, almost exclusively in user mode |
-| NodeJS | perfsvr2 (Linux) | 173,641 | 32 threads, 512 connections | The actual TechEmpower NodeJS app | CPU is 100% |
 | ASP.NET Core on Kestrel | perfsvr | 1,188,521 | 32 threads, 256 connections | Middleware class, multi IO thread | CPU is 100% |
-| ASP.NET Core on Kestrel | perfsvr2 (Linux) | 928,023 | 32 threads, 256 connections | Middleware class, single IO thread | |
 | Scala | perfsvr | 1,514,942 | 32 threads, 1024 connections | The actual TechEmpower Scala plaintext app | CPU is 100%, 70% in user mode |
 | Netty | perfsvr | 2,808,515 | 32 threads, 256 connections | The actual TechEmpower Netty app | CPU is 100% |
+| NodeJS | perfsvr2 (Linux) | 173,641 | 32 threads, 512 connections | The actual TechEmpower NodeJS app | CPU is 100% |
+| ASP.NET Core on Kestrel | perfsvr2 (Linux) | 928,023 | 32 threads, 256 connections | Middleware class, single IO thread | CPU is 100% |
+| ASP.NET Core on Kestrel | perfsvr3 (Windows) | 3,100,000 | 32 threads, 256 connections | Middleware class, single IO thread | CPU is 100% |
+| Netty | perfsvr3 (Windows) | 8,090,000 | 32 threads, 1024 connections | The actual TechEmpower Netty app | CPU is 100% |
+| ASP.NET Core on Kestrel | perfsvr3 (Linux) | 3,240,000 | 32 threads, 256 connections | Middleware class, single IO thread | CPU is 85% |
+| Netty | perfsvr3 (Linux) | 7,980,000 | 32 threads, 1024 connections | The actual TechEmpower Netty app | CPU is 60% |
 
 This project is part of ASP.NET Core. You can find samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
