@@ -54,6 +54,8 @@ namespace Benchmarks
                     {
                         options.ThreadCount = threads;
                     }
+
+                    options.UseConnectionLogging();
                 });
             }
             else if (String.Equals(Server, "WebListener", StringComparison.OrdinalIgnoreCase))
