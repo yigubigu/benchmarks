@@ -7,6 +7,7 @@ port=5000
 script=../pipeline.lua
 depth=1
 connections=512
+threads=$(nproc)
 
 while [[ $# > 1 ]]
 do
@@ -41,18 +42,22 @@ case $key in
     connections="$2"
     shift # past argument
     ;;
+    --threads)
+    threads="$2"
+    shift # past argument
+    ;;
 
 
 esac
 shift # past argument or value
 done
 
-cmd="./run-wrk.sh -p $port -h $host -t $test --script $script -d 1m --depth $depth -c $connections"
+cmd="./run-wrk.sh -p $port -h $host -t $test --script $script -d 1m --depth $depth -c $connections --threads $threads"
 echo $cmd
 echo Warming up...
 $cmd | grep Requests/sec | awk '{print $2}'
 echo Running tests...
-cmd="./run-wrk.sh -p $port -h $host -t $test --script $script -d 15s --depth $depth -c $connections"
+cmd="./run-wrk.sh -p $port -h $host -t $test --script $script -d 15s --depth $depth -c $connections --threads $threads"
 output=""
 for i in `seq 1 $iterations`;
 do
