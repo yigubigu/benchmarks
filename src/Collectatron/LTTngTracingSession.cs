@@ -10,11 +10,6 @@ namespace Collectatron
             throw new NotImplementedException();
         }
 
-        public override void EnableClrTracing(ClrTracingMode mode)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void EnableProvider(string provider)
         {
             throw new NotImplementedException();

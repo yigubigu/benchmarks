@@ -7,7 +7,6 @@ namespace Collectatron
 {
     public class CollectCommand
     {
-        private CommandArgument _pidArgument;
         private CommandOption _outputOption;
         private CommandOption _providerOption;
         private CommandOption _forceOption;
@@ -18,13 +17,9 @@ namespace Collectatron
         {
             _session = TracingSession.Create();
 
-            var clrTracingValues = string.Join(",", Enum.GetValues(typeof(ClrTracingMode)));
-
-            _pidArgument = app.Argument("<PROCESS_ID>", "The PID of the process to collect for");
             _outputOption = app.Option("-o|--output <OUTPUTNAME>", "Specifies the name of the output reports directory to use", CommandOptionType.SingleValue);
             _forceOption = app.Option("-f|--force", "Indicates that existing results in <OUTPUTNAME> should be deleted", CommandOptionType.NoValue);
             _providerOption = app.Option("--provider <PROVIDER>", "Specifies an event Provider to enable.", CommandOptionType.MultipleValue);
-            _clrOption = app.Option("-c|--clr-events <CLR_EVENTS>", $"Specifies the CLR event tracing mode to use. Default: '{nameof(ClrTracingMode.Default)}', Possible Values: " + clrTracingValues, CommandOptionType.SingleValue);
 
             _session.AttachArguments(app);
 
@@ -33,12 +28,6 @@ namespace Collectatron
 
         public int Execute()
         {
-            if (string.IsNullOrEmpty(_pidArgument.Value))
-            {
-                Console.Error.WriteLine("Missing required argument: <PROCESS_ID>");
-                return 1;
-            }
-
             var output = Path.GetFullPath(_outputOption.HasValue() ? _outputOption.Value() : Path.Combine(Directory.GetCurrentDirectory(), "collection"));
 
             if (Directory.Exists(output))
@@ -55,20 +44,16 @@ namespace Collectatron
             }
             Directory.CreateDirectory(output);
 
-            var target = Process.GetProcessById(int.Parse(_pidArgument.Value));
-
-            _session.Initialize(output, target);
-
-            var clrTracingMode = _clrOption.HasValue() ?
-                (ClrTracingMode)Enum.Parse(typeof(ClrTracingMode), _clrOption.Value(), ignoreCase: true) :
-                ClrTracingMode.Default;
-
-            _session.EnableClrTracing(clrTracingMode);
+            _session.Initialize(output);
 
             foreach (var provider in _providerOption.Values)
             {
                 _session.EnableProvider(provider);
             }
+
+            // Make sure we dispose of the session even if we're terminated by Ctrl-C.
+            // If we're terminated outside of Ctrl-C, well we're screwed there :).
+            Console.CancelKeyPress += (sender, e) => _session.Dispose();
 
             // Start the session
             if (!_session.Start())
@@ -79,6 +64,7 @@ namespace Collectatron
             // Wait for the user to terminate
             Console.WriteLine("Collection started, press 'S' to stop");
             while (Console.ReadKey(intercept: true).Key != ConsoleKey.S) { }
+            Console.WriteLine("Shutting down collection...");
 
             // Shut down the session
             if (!_session.Stop())

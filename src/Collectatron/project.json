@@ -5,16 +5,23 @@
     },
 
     "dependencies": {
-        "Microsoft.Extensions.CommandLineUtils": "1.1.0-*",
-        "Microsoft.NETCore.App": {
-            "type": "platform",
-            "version": "1.0.1"
-        }
+        "Microsoft.Extensions.CommandLineUtils": "1.1.0-*"
     },
 
     "frameworks": {
+        "net451": {
+            "dependencies": {
+                "Microsoft.Diagnostics.Tracing.TraceEvent": "1.0.41"
+            }
+        },
         "netcoreapp1.0": {
-            "imports": "dnxcore50"
+            "imports": "dnxcore50",
+            "dependencies": {
+                "Microsoft.NETCore.App": {
+                    "type": "platform",
+                    "version": "1.0.1"
+                }
+            }
         }
     }
 }
