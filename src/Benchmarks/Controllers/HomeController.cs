@@ -17,13 +17,20 @@ namespace Benchmarks.Controllers
             return new PlainTextActionResult();
         }
 
+        //[HttpGet("json")]
+        //[Produces("application/json")]
+        //public object Json()
+        //{
+        //    return new { message = "Hello, World!" };
+        //}
+
         [HttpGet("json")]
         [Produces("application/json")]
         public object Json()
         {
-            return new { message = "Hello, World!" };
+            return new JsonResult(new { message = "Hello, World!" });
         }
-        
+
         [HttpGet("view")]
         public ViewResult Index()
         {
