@@ -3,6 +3,7 @@
 
 using System;
 using System.Text.Encodings.Web;
+using System.Threading;
 using System.Threading.Tasks;
 using Benchmarks.Configuration;
 using Benchmarks.Data;
@@ -19,10 +20,15 @@ namespace Benchmarks.Middleware
         private readonly RequestDelegate _next;
         private readonly HtmlEncoder _htmlEncoder;
 
+        private AsyncLocal<bool> _test;
+
         public FortunesRawMiddleware(RequestDelegate next, HtmlEncoder htmlEncoder)
         {
             _next = next;
             _htmlEncoder = htmlEncoder;
+            
+            _test = new AsyncLocal<bool>();
+            _test.Value = true;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -33,6 +39,10 @@ namespace Benchmarks.Middleware
                 var rows = await db.LoadFortunesRows();
 
                 await MiddlewareHelpers.RenderFortunesHtml(rows, httpContext, _htmlEncoder);
+
+                if (!_test.Value) {
+                    throw new Exception();
+                }
 
                 return;
             }
