@@ -25,14 +25,14 @@ namespace Benchmarks.Middleware
         public FortunesRawMiddleware(RequestDelegate next, HtmlEncoder htmlEncoder)
         {
             _next = next;
-            _htmlEncoder = htmlEncoder;
-            
-            _test = new AsyncLocal<bool>();
-            _test.Value = true;
+            _htmlEncoder = htmlEncoder;            
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
+            _test = new AsyncLocal<bool>();
+            _test.Value = true;
+
             if (httpContext.Request.Path.StartsWithSegments(_path, StringComparison.Ordinal))
             {
                 var db = httpContext.RequestServices.GetService<RawDb>();
