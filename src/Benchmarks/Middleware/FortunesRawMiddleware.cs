@@ -31,7 +31,7 @@ namespace Benchmarks.Middleware
         public async Task Invoke(HttpContext httpContext)
         {
             _test = new AsyncLocal<bool>();
-            // _test.Value = true;
+            _test.Value = true;
 
             if (httpContext.Request.Path.StartsWithSegments(_path, StringComparison.Ordinal))
             {
@@ -40,9 +40,9 @@ namespace Benchmarks.Middleware
 
                 await MiddlewareHelpers.RenderFortunesHtml(rows, httpContext, _htmlEncoder);
 
-                if (_test.Value) {
-                    throw new Exception();
-                }
+                // if (_test.Value) {
+                //     throw new Exception();
+                // }
 
                 return;
             }
