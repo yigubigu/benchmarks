@@ -40,9 +40,9 @@ namespace Benchmarks.Middleware
 
                 await MiddlewareHelpers.RenderFortunesHtml(rows, httpContext, _htmlEncoder);
 
-                // if (_test.Value) {
-                //     throw new Exception();
-                // }
+                if (_test.Value) {
+                    throw new Exception();
+                }
 
                 return;
             }
