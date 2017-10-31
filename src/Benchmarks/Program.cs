@@ -42,6 +42,7 @@ namespace Benchmarks
                 .Build();
 
             Server = config["server"] ?? "Kestrel";
+            Console.WriteLine($"Using server: {Server}");
 
             var webHostBuilder = new WebHostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -64,6 +65,7 @@ namespace Benchmarks
                     (context, options) => options.ValidateScopes = context.HostingEnvironment.IsDevelopment());
 
             bool? threadPoolDispatching = null;
+
             if (String.Equals(Server, "Kestrel", StringComparison.OrdinalIgnoreCase))
             {
                 webHostBuilder = webHostBuilder.UseKestrel(options =>
@@ -142,6 +144,7 @@ namespace Benchmarks
                 throw new InvalidOperationException($"Unknown server value: {Server}");
             }
 
+            webHostBuilder.UseIISIntegration();
             var webHost = webHostBuilder.Build();
 
             Console.WriteLine($"Using server {Server}");
