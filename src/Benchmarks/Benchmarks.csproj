@@ -48,4 +48,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets" Version="$(BenchmarksAspNetCoreVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\DataAccessPerformance\experiments\Peregrine\Peregrine\Peregrine.csproj" />
+  </ItemGroup>
+
 </Project>

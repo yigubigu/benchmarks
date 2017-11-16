@@ -67,6 +67,9 @@ namespace Benchmarks.Configuration
         [ScenarioPath("/db/raw")]
         public bool DbSingleQueryRaw { get; set; }
 
+        [ScenarioPath("/db/peregrine")]
+        public bool DbSingleQueryPeregrine { get; set; }
+
         [ScenarioPath("/db/ef")]
         public bool DbSingleQueryEf { get; set; }
 
@@ -75,6 +78,9 @@ namespace Benchmarks.Configuration
 
         [ScenarioPath("/queries/raw")]
         public bool DbMultiQueryRaw { get; set; }
+
+        [ScenarioPath("/queries/peregrine")]
+        public bool DbMultiQueryPeregrine { get; set; }
 
         [ScenarioPath("/queries/ef")]
         public bool DbMultiQueryEf { get; set; }
@@ -85,6 +91,9 @@ namespace Benchmarks.Configuration
         [ScenarioPath("/updates/raw")]
         public bool DbMultiUpdateRaw { get; set; }
 
+        [ScenarioPath("/updates/peregrine")]
+        public bool DbMultiUpdatePeregrine { get; set; }
+
         [ScenarioPath("/updates/ef")]
         public bool DbMultiUpdateEf { get; set; }
 
@@ -93,6 +102,9 @@ namespace Benchmarks.Configuration
 
         [ScenarioPath("/fortunes/raw")]
         public bool DbFortunesRaw { get; set; }
+
+        [ScenarioPath("/fortunes/peregrine")]
+        public bool DbFortunesPeregrine { get; set; }
 
         [ScenarioPath("/fortunes/ef")]
         public bool DbFortunesEf { get; set; }
