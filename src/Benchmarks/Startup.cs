@@ -109,7 +109,7 @@ namespace Benchmarks
                         connectionStringBuilder.Database,
                         connectionStringBuilder.Username,
                         connectionStringBuilder.Password,
-                        32)
+                        1000)
                     {
                         OnCreate = async s =>
                         {
