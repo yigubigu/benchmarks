@@ -97,7 +97,7 @@ namespace Benchmarks
                 services.AddScoped<RawDb>();
             }
 
-            if (Scenarios.Any("Raw"))
+            if (Scenarios.Any("Peregrine"))
             {
                 var connectionStringBuilder
                     = new NpgsqlConnectionStringBuilder(appSettings.ConnectionString);
